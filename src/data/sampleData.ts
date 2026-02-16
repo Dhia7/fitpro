@@ -1,0 +1,703 @@
+import type {
+  ClientInfo,
+  WorkoutDay,
+  DayMealPlan,
+  ProgressTracking,
+} from "@/types";
+
+export const sampleClientInfo: ClientInfo = {
+  name: "Dhia Naija",
+  startDate: "October 15, 2024",
+  endDate: "October 15, 2025",
+  trainerName: "Dhia Naija",
+  trainerEmail: "dhianaija@gmail.com",
+  goal: "Building muscle with creatine supplements and 80% proper nutrition",
+  height: "1.80m",
+  weight: 85,
+  bodyFat: 15,
+  instagram: "dhia_naija", // Instagram username without @
+};
+
+export const sampleWorkoutPlan: WorkoutDay[] = [
+  {
+    day: "Monday",
+    focus: "Chest & Triceps",
+    exercises: [
+      {
+        name: "Incline Dumbbell Press",
+        sets: 4,
+        reps: "10-12",
+        rest: "2-3 min",
+        notes: "Control the descent, explosive press",
+      },
+      {
+        name: "Bench Press",
+        sets: 3,
+        reps: "8-10",
+        rest: "2-3 min",
+        notes: "Control the descent, explosive press",
+      },
+      {
+        name: "Single arm lateral raises",
+        sets: 3,
+        reps: "12-15",
+        rest: "2-3 min",
+      },
+      {
+        name: "Triceps Dips",
+        sets: 3,
+        reps: "10-15",
+        rest: "2-3 min",
+        notes: "Keep elbows close to body, control the descent",
+      },
+      {
+        name: "Triceps Pushdown",
+        sets: 3,
+        reps: "12-15",
+        rest: "2 min",
+      },
+    ],
+  },
+  {
+    day: "Tuesday",
+    focus: "Back & Biceps",
+    exercises: [
+      {
+        name: "Bent Over Row",
+        sets: 4,
+        reps: "8-12",
+        rest: "2-3 min",
+        notes: "Keep back straight",
+      },
+      {
+        name: "Pull-ups",
+        sets: 3,
+        reps: "8-10",
+        rest: "2-3 min",
+        notes: "Assisted if needed",
+      },
+      {
+        name: "Lat Pulldown",
+        sets: 3,
+        reps: "10-12",
+        rest: "2-3 min",
+      },
+      {
+        name: "Reverse Flyes Rear Delts",
+        sets: 3,
+        reps: "10-15",
+        rest: "2-3 min",
+        notes: "you can also do Chest Supported Reverse Fly (Dumbbell)",
+      },
+      {
+        name: "Barbell Curls",
+        sets: 3,
+        reps: "10-15",
+        rest: "2 min",
+        notes:"You can swap it with EZ Bar Bicep Curls" ,
+      },
+      {
+        name: "Hammer Curls",
+        sets: 3,
+        reps: "10-15",
+        rest: "2 min",
+      },
+    ],
+  },
+  {
+    day: "Wednesday",
+    focus: "Legs & Abs",
+    exercises: [
+      {
+        name: "Squats",
+        sets: 4,
+        reps: "8-10",
+        rest: "3+ min",
+        notes: "Depth below parallel",
+      },
+      {
+        name: "Leg Press / Leg Extension",
+        sets: 3,
+        reps: "12-15",
+        rest: "3+ min",
+      },
+      {
+        name: "Romanian Deadlifts",
+        sets: 3,
+        reps: "12-15",
+        rest: "2-3 min",
+      },
+      {
+        name: "Leg Curls",
+        sets: 3,
+        reps: "12-15",
+        rest: "2-3 min",
+      },
+      {
+        name: "Plank",
+        sets: 3,
+        reps: "60s hold",
+        rest: "2 min",
+      },
+      {
+        name: "Hanging Leg Raises",
+        sets: 3,
+        reps: "12-15",
+        rest: "2 min",
+      },
+    ],
+  },
+  {
+    day: "Thursday",
+    focus: "Rest / Active Recovery",
+    exercises: [
+      {
+        name: "Light Cardio",
+        sets: 1,
+        reps: "20-30 min",
+        rest: "-",
+        notes: "Walking, swimming, or cycling",
+      },
+      {
+        name: "Stretching",
+        sets: 1,
+        reps: "15-20 min",
+        rest: "-",
+      },
+    ],
+  },
+  {
+    day: "Friday",
+    focus: "Upper Body (Balanced Exercises)",
+    exercises: [
+      {
+        name: "Overhead Dumbbell Press",
+        sets: 4,
+        reps: "8-10",
+        rest: "2-3 min",
+      },
+      {
+        name: "Arnold Press",
+        sets: 3,
+        reps: "10",
+        rest: "2-3 min",
+      },
+      {
+        name: "Incline Dumbbell Press",
+        sets: 3,
+        reps: "15-20",
+        rest: "2-3 min",
+      },
+      {
+        name: "Seated Cable Rows",
+        sets: 3,
+        reps: "10-12",
+        rest: "2 min",
+      },
+      {
+        name: "Dumbbell Bicep Curls",
+        sets: 3,
+        reps: "10-12",
+        rest: "2 min",
+      },
+      {
+        name: "Overhead Tricep Extension",
+        sets: 3,
+        reps: "10-12",
+        rest: "2 min",
+      },
+    ],
+  },
+  {
+    day: "Saturday",
+    focus: "Full Body (Compound Focus)",
+    exercises: [
+      {
+        name: "Barbell Squats",
+        sets: 3,
+        reps: "8-12",
+        rest: "3+ min",
+      },
+      {
+        name: "Deadlifts",
+        sets: 3,
+        reps: "8-10",
+        rest: "3+ min",
+      },
+      {
+        name: "Pull-ups",
+        sets: 3,
+        reps: "12",
+        rest: "3 min",
+      },
+      {
+        name: "Chest Dips",
+        sets: 3,
+        reps: "10-15",
+        rest: "3 min",
+      },
+      {
+        name: "Lateral Raises",
+        sets: 3,
+        reps: "10-15",
+        rest: "2 min",
+      },
+      {
+        name: "Cable Crunches",
+        sets: 3,
+        reps: "10-15",
+        rest: "2-3 min",
+      },
+    ],
+  },
+  {
+    day: "Sunday",
+    focus: "Rest Day",
+    exercises: [
+      {
+        name: "Complete Rest",
+        sets: 1,
+        reps: "-",
+        rest: "-",
+        notes: "Recovery is essential for muscle growth",
+      },
+    ],
+  },
+];
+
+export const sampleMealPlan: DayMealPlan[] = [
+  {
+    day: "Monday",
+    meals: {
+      breakfast: {
+        name: "Protein Oatmeal Bowl",
+        time: "7:00 AM",
+        description: "1 cup oats, 1 scoop protein powder, banana, almonds, honey",
+        protein: 35,
+        carbs: 65,
+        fats: 15,
+        calories: 525,
+      },
+      lunch: {
+        name: "Grilled Chicken & Rice",
+        time: "12:30 PM",
+        description: "6oz chicken breast, 1 cup brown rice, steamed broccoli",
+        protein: 45,
+        carbs: 50,
+        fats: 10,
+        calories: 470,
+      },
+      dinner: {
+        name: "Salmon & Sweet Potato",
+        time: "6:30 PM",
+        description: "6oz salmon fillet, medium sweet potato, asparagus",
+        protein: 40,
+        carbs: 45,
+        fats: 20,
+        calories: 520,
+      },
+      snacks: [
+        {
+          name: "Greek Yogurt & Berries",
+          time: "10:00 AM",
+          description: "1 cup Greek yogurt, mixed berries",
+          protein: 20,
+          carbs: 25,
+          fats: 5,
+          calories: 225,
+        },
+        {
+          name: "Protein Shake",
+          time: "3:00 PM",
+          description: "Whey protein, banana, almond milk",
+          protein: 25,
+          carbs: 30,
+          fats: 5,
+          calories: 260,
+        },
+      ],
+    },
+    totalMacros: {
+      protein: 165,
+      carbs: 215,
+      fats: 55,
+      calories: 2000,
+    },
+  },
+  {
+    day: "Tuesday",
+    meals: {
+      breakfast: {
+        name: "Egg White Scramble",
+        time: "7:00 AM",
+        description: "6 egg whites, spinach, mushrooms, 2 slices whole grain toast",
+        protein: 30,
+        carbs: 40,
+        fats: 8,
+        calories: 348,
+      },
+      lunch: {
+        name: "Turkey & Quinoa Bowl",
+        time: "12:30 PM",
+        description: "6oz turkey breast, 1 cup quinoa, mixed vegetables",
+        protein: 42,
+        carbs: 48,
+        fats: 12,
+        calories: 468,
+      },
+      dinner: {
+        name: "Lean Beef Stir-Fry",
+        time: "6:30 PM",
+        description: "6oz lean beef, brown rice noodles, mixed vegetables",
+        protein: 45,
+        carbs: 50,
+        fats: 15,
+        calories: 515,
+      },
+      snacks: [
+        {
+          name: "Apple & Peanut Butter",
+          time: "10:00 AM",
+          description: "1 large apple, 2 tbsp natural peanut butter",
+          protein: 8,
+          carbs: 35,
+          fats: 16,
+          calories: 300,
+        },
+        {
+          name: "Cottage Cheese Bowl",
+          time: "3:00 PM",
+          description: "1 cup low-fat cottage cheese, pineapple chunks",
+          protein: 28,
+          carbs: 20,
+          fats: 4,
+          calories: 228,
+        },
+      ],
+    },
+    totalMacros: {
+      protein: 153,
+      carbs: 193,
+      fats: 55,
+      calories: 1859,
+    },
+  },
+  {
+    day: "Wednesday",
+    meals: {
+      breakfast: {
+        name: "Protein Pancakes",
+        time: "7:00 AM",
+        description: "Protein pancakes (3), sugar-free syrup, strawberries",
+        protein: 32,
+        carbs: 42,
+        fats: 10,
+        calories: 386,
+      },
+      lunch: {
+        name: "Tuna Salad Bowl",
+        time: "12:30 PM",
+        description: "6oz tuna, mixed greens, chickpeas, olive oil dressing",
+        protein: 40,
+        carbs: 35,
+        fats: 18,
+        calories: 466,
+      },
+      dinner: {
+        name: "Chicken Fajita Bowl",
+        time: "6:30 PM",
+        description: "6oz chicken, peppers, onions, brown rice, guacamole",
+        protein: 42,
+        carbs: 48,
+        fats: 14,
+        calories: 494,
+      },
+      snacks: [
+        {
+          name: "Protein Bar",
+          time: "10:00 AM",
+          description: "Quest protein bar or similar",
+          protein: 20,
+          carbs: 25,
+          fats: 8,
+          calories: 248,
+        },
+        {
+          name: "Mixed Nuts",
+          time: "3:00 PM",
+          description: "1/4 cup mixed nuts",
+          protein: 8,
+          carbs: 12,
+          fats: 20,
+          calories: 260,
+        },
+      ],
+    },
+    totalMacros: {
+      protein: 142,
+      carbs: 162,
+      fats: 70,
+      calories: 1854,
+    },
+  },
+];
+
+// Add 4 more days following similar pattern
+export const completeMealPlan: DayMealPlan[] = [
+  ...sampleMealPlan,
+  {
+    day: "Thursday",
+    meals: {
+      breakfast: {
+        name: "Veggie Omelet",
+        time: "7:00 AM",
+        description: "3 whole eggs, bell peppers, onions, cheese, avocado toast",
+        protein: 28,
+        carbs: 38,
+        fats: 22,
+        calories: 466,
+      },
+      lunch: {
+        name: "Chicken Caesar Salad",
+        time: "12:30 PM",
+        description: "6oz grilled chicken, romaine, parmesan, light Caesar dressing",
+        protein: 45,
+        carbs: 20,
+        fats: 15,
+        calories: 415,
+      },
+      dinner: {
+        name: "Shrimp & Pasta",
+        time: "6:30 PM",
+        description: "6oz shrimp, whole wheat pasta, marinara sauce, vegetables",
+        protein: 38,
+        carbs: 55,
+        fats: 12,
+        calories: 488,
+      },
+      snacks: [
+        {
+          name: "Smoothie Bowl",
+          time: "10:00 AM",
+          description: "Protein powder, frozen berries, banana, granola",
+          protein: 25,
+          carbs: 45,
+          fats: 8,
+          calories: 352,
+        },
+      ],
+    },
+    totalMacros: {
+      protein: 136,
+      carbs: 158,
+      fats: 57,
+      calories: 1721,
+    },
+  },
+  {
+    day: "Friday",
+    meals: {
+      breakfast: {
+        name: "Breakfast Burrito",
+        time: "7:00 AM",
+        description: "Whole wheat tortilla, scrambled eggs, black beans, salsa",
+        protein: 30,
+        carbs: 50,
+        fats: 15,
+        calories: 465,
+      },
+      lunch: {
+        name: "Beef & Veggie Bowl",
+        time: "12:30 PM",
+        description: "5oz lean ground beef, cauliflower rice, mixed vegetables",
+        protein: 40,
+        carbs: 30,
+        fats: 18,
+        calories: 450,
+      },
+      dinner: {
+        name: "Grilled Chicken & Quinoa",
+        time: "6:30 PM",
+        description: "6oz chicken thighs, quinoa, roasted Brussels sprouts",
+        protein: 42,
+        carbs: 45,
+        fats: 16,
+        calories: 496,
+      },
+      snacks: [
+        {
+          name: "Rice Cakes & Almond Butter",
+          time: "10:00 AM",
+          description: "2 rice cakes, almond butter, honey drizzle",
+          protein: 8,
+          carbs: 35,
+          fats: 12,
+          calories: 276,
+        },
+        {
+          name: "Protein Shake",
+          time: "3:00 PM",
+          description: "Whey protein, berries, spinach, almond milk",
+          protein: 26,
+          carbs: 25,
+          fats: 5,
+          calories: 248,
+        },
+      ],
+    },
+    totalMacros: {
+      protein: 146,
+      carbs: 185,
+      fats: 66,
+      calories: 1935,
+    },
+  },
+  {
+    day: "Saturday",
+    meals: {
+      breakfast: {
+        name: "French Toast & Eggs",
+        time: "8:00 AM",
+        description: "Whole grain French toast, 3 eggs, turkey bacon",
+        protein: 35,
+        carbs: 48,
+        fats: 18,
+        calories: 498,
+      },
+      lunch: {
+        name: "Sushi Bowl",
+        time: "1:00 PM",
+        description: "Salmon, edamame, cucumber, avocado, brown rice",
+        protein: 38,
+        carbs: 52,
+        fats: 16,
+        calories: 508,
+      },
+      dinner: {
+        name: "Grilled Steak & Vegetables",
+        time: "7:00 PM",
+        description: "6oz sirloin steak, roasted potatoes, green beans",
+        protein: 45,
+        carbs: 42,
+        fats: 20,
+        calories: 540,
+      },
+      snacks: [
+        {
+          name: "Fruit & Cheese",
+          time: "11:00 AM",
+          description: "Apple slices, string cheese",
+          protein: 10,
+          carbs: 25,
+          fats: 8,
+          calories: 208,
+        },
+      ],
+    },
+    totalMacros: {
+      protein: 128,
+      carbs: 167,
+      fats: 62,
+      calories: 1754,
+    },
+  },
+  {
+    day: "Sunday",
+    meals: {
+      breakfast: {
+        name: "Protein Waffles",
+        time: "8:00 AM",
+        description: "Protein waffles, Greek yogurt, mixed berries",
+        protein: 32,
+        carbs: 45,
+        fats: 12,
+        calories: 420,
+      },
+      lunch: {
+        name: "Chicken Wrap",
+        time: "1:00 PM",
+        description: "Whole wheat wrap, grilled chicken, hummus, vegetables",
+        protein: 38,
+        carbs: 42,
+        fats: 14,
+        calories: 446,
+      },
+      dinner: {
+        name: "Baked Cod & Vegetables",
+        time: "6:30 PM",
+        description: "6oz cod fillet, roasted vegetables, wild rice",
+        protein: 40,
+        carbs: 48,
+        fats: 10,
+        calories: 450,
+      },
+      snacks: [
+        {
+          name: "Trail Mix",
+          time: "11:00 AM",
+          description: "Homemade trail mix with nuts and dried fruit",
+          protein: 10,
+          carbs: 30,
+          fats: 15,
+          calories: 285,
+        },
+        {
+          name: "Casein Shake",
+          time: "9:00 PM",
+          description: "Casein protein before bed",
+          protein: 24,
+          carbs: 8,
+          fats: 2,
+          calories: 148,
+        },
+      ],
+    },
+    totalMacros: {
+      protein: 144,
+      carbs: 173,
+      fats: 53,
+      calories: 1749,
+    },
+  },
+];
+
+export const sampleProgress: ProgressTracking = {
+  measurements: {
+    weight: 75,
+    bodyFat: 18,
+    chest: 42,
+    waist: 34,
+    hips: 40,
+    arms: 15,
+    thighs: 24,
+  },
+  goals: {
+    shortTerm: [
+      "Maintain 10-15% body fat",
+      "Increase bench press by 2.5 kg every 2 weeks",
+      "Complete all workouts for 8 weeks straight",
+      "Stick to meal plan 90% of the time",
+    ],
+    longTerm: [
+      "lift bodyweight aim to calisthenics",
+      "Bench press 100 kg",
+      "Reach 77 kg at 12% body fat",
+      "Maintain healthy lifestyle habits",
+    ],
+  },
+  notes: `Keep focusing on:
+  
+1. Consistency is the key
+2. Hit your protein target daily (1.6–2.2g * kg per body weight)
+3. Take 5g of creatine per day before or after the workout (make sure to take it at the same time every day)
+4. Stay hydrated - aim for 3-5 litres of water daily
+5. Sleep 7-8 hours per night for recovery
+6. Take notes of your progress, download app to track your progress (MyFitnessPal, Hevy, etc...)
+7. Take progress photos every 2 weeks
+
+
+Remember: This is a marathon, not a sprint. Small consistent improvements will lead to amazing results. Don't get discouraged by temporary setbacks - they're part of the journey!
+
+Feel free to reach out if you have any questions.`,
+};
+
