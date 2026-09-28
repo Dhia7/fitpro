@@ -4,9 +4,6 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Header } from "./components/Header";
 import { WorkoutPlan } from "./components/WorkoutPlan";
 import { MealPlan } from "./components/MealPlan";
-import { LandingPage } from "./components/LandingPage";
-
-import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./components/ui/tabs";
 import { Button } from "./components/ui/button";
 import { Printer, Dumbbell, UtensilsCrossed } from "lucide-react";
@@ -101,16 +98,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
-
-        <Route 
-          path="/dashboard" 
-          element={
-            <ProtectedRoute>
-              <MainContent />
-            </ProtectedRoute>
-          } 
-        />
+        <Route path="/" element={<MainContent />} />
+        <Route path="/dashboard" element={<Navigate to="/" replace />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
