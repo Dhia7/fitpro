@@ -76,8 +76,13 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-slate-50 text-slate-900;
+    font-family: "Satoshi", sans-serif;
   }
+}
+
+.font-display {
+  font-family: "Cabinet Grotesk", sans-serif;
 }
 
 @media print {
