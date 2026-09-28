@@ -288,9 +288,9 @@ export const sampleMealPlan: DayMealPlan[] = [
         calories: 470,
       },
       dinner: {
-        name: "Salmon & Sweet Potato",
+        name: "Tuna & Sweet Potato",
         time: "6:30 PM",
-        description: "6oz salmon fillet, medium sweet potato, asparagus",
+        description: "6oz Tuna, medium sweet potato, asparagus",
         protein: 40,
         carbs: 45,
         fats: 20,
@@ -298,9 +298,9 @@ export const sampleMealPlan: DayMealPlan[] = [
       },
       snacks: [
         {
-          name: "Greek Yogurt & Berries",
+          name: "Greek Yogurt & Dates",
           time: "10:00 AM",
-          description: "1 cup Greek yogurt, mixed berries",
+          description: "1 cup Greek yogurt, mixed dates",
           protein: 20,
           carbs: 25,
           fats: 5,

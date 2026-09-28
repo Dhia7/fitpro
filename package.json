@@ -11,7 +11,11 @@
     "preview": "vite preview",
     "fetch-images": "tsx scripts/fetchExerciseImages.ts",
     "import-images": "tsx scripts/importImagesToData.ts",
-    "find-exercise-id": "tsx scripts/findExerciseId.ts"
+    "find-exercise-id": "tsx scripts/findExerciseId.ts",
+    "supabase": "npx supabase",
+    "deploy-function": "npx supabase functions deploy send-verification-email",
+    "db-push": "npx supabase db push",
+    "start-local": "npx supabase start && npm run dev"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.95.3",

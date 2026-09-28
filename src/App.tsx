@@ -5,11 +5,12 @@ import { Header } from "./components/Header";
 import { WorkoutPlan } from "./components/WorkoutPlan";
 import { MealPlan } from "./components/MealPlan";
 import { LandingPage } from "./components/LandingPage";
+
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./components/ui/tabs";
 import { Button } from "./components/ui/button";
 import { Printer, Dumbbell, UtensilsCrossed } from "lucide-react";
-import { authService } from "./lib/authService";
+
 import {
   sampleClientInfo,
   sampleWorkoutPlan,
@@ -20,7 +21,6 @@ import {
 function MainContent() {
   const [activeTab, setActiveTab] = useState("workout");
   const printRef = useRef<HTMLDivElement>(null);
-  const userEmail = authService.getUserEmail();
 
   const handlePrint = useReactToPrint({
     contentRef: printRef,
@@ -43,10 +43,7 @@ function MainContent() {
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8 max-w-6xl">
         {/* Header */}
-        <div className="flex justify-between items-center mb-4 no-print">
-          <div className="text-sm text-muted-foreground">
-            {userEmail && `Logged in as: ${userEmail}`}
-          </div>
+        <div className="flex justify-end items-center mb-4 no-print">
           <Button onClick={handlePrint} className="flex items-center gap-2">
             <Printer className="h-4 w-4" />
             Print / Save as PDF
@@ -92,11 +89,7 @@ function MainContent() {
 
         <footer className="mt-12 pt-6 border-t text-center text-sm text-muted-foreground no-print">
           <p>
-            This template is customizable. Edit the data in{" "}
-            <code className="bg-muted px-2 py-1 rounded">
-              src/data/sampleData.ts
-            </code>{" "}
-            to personalize it for your clients.
+            My workout routine and meal plan for getting in shape.
           </p>
         </footer>
       </div>
@@ -109,6 +102,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage />} />
+
         <Route 
           path="/dashboard" 
           element={

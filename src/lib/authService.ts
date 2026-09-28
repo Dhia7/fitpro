@@ -1,4 +1,27 @@
-import { supabase } from './supabase';
+import { isSupabaseConfigured, supabase } from './supabase';
+
+const LOCAL_LIST_KEY = 'local_email_access';
+
+export function isLocalAccessMode(): boolean {
+  if (import.meta.env.VITE_EMAIL_SERVICE === 'localStorage') return true;
+  return import.meta.env.DEV && !isSupabaseConfigured;
+}
+
+export function getLocalAccessKey(): string | null {
+  if (!isLocalAccessMode()) return null;
+  const key = (import.meta.env.VITE_LOCAL_ACCESS_KEY as string | undefined)?.trim();
+  return key || null;
+}
+
+function readLocalEmails(): string[] {
+  try {
+    const raw = localStorage.getItem(LOCAL_LIST_KEY);
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed.filter((value) => typeof value === 'string') : [];
+  } catch {
+    return [];
+  }
+}
 
 export interface AccessResponse {
   success: boolean;
@@ -11,12 +34,25 @@ class AuthService {
   private readonly STORAGE_KEY = 'user_email';
 
   async requestAccess(email: string): Promise<AccessResponse> {
+    const normalized = email.trim().toLowerCase();
+
+    if (isLocalAccessMode()) {
+      return this.requestLocalAccess(normalized);
+    }
+
+    if (!supabase) {
+      return {
+        success: false,
+        message: 'Email access is not configured. Add Supabase keys or a local access key.'
+      };
+    }
+
     try {
       // Check if email already exists
       const { data: existingData } = await supabase
         .from('email_access')
         .select('email, created_at')
-        .eq('email', email)
+        .eq('email', normalized)
         .single();
 
       const isReturning = !!existingData;
@@ -26,7 +62,7 @@ class AuthService {
         const { error: insertError } = await supabase
           .from('email_access')
           .insert({
-            email,
+            email: normalized,
             created_at: new Date().toISOString(),
             last_accessed: new Date().toISOString()
           });
@@ -39,16 +75,16 @@ class AuthService {
           .update({
             last_accessed: new Date().toISOString()
           })
-          .eq('email', email);
+          .eq('email', normalized);
       }
 
       // Store in localStorage for this device
-      localStorage.setItem(this.STORAGE_KEY, email);
+      localStorage.setItem(this.STORAGE_KEY, normalized);
 
       return {
         success: true,
         message: isReturning ? 'Welcome back!' : 'Access granted!',
-        email,
+        email: normalized,
         isReturning
       };
 
@@ -61,12 +97,39 @@ class AuthService {
     }
   }
 
+  private requestLocalAccess(email: string): AccessResponse {
+    const emails = readLocalEmails();
+    const isReturning = emails.includes(email);
+
+    if (!isReturning) {
+      emails.push(email);
+      localStorage.setItem(LOCAL_LIST_KEY, JSON.stringify(emails));
+    }
+
+    localStorage.setItem(this.STORAGE_KEY, email);
+
+    return {
+      success: true,
+      message: isReturning ? 'Welcome back!' : 'Access granted!',
+      email,
+      isReturning
+    };
+  }
+
   async checkEmailExists(email: string): Promise<boolean> {
+    const normalized = email.trim().toLowerCase();
+
+    if (isLocalAccessMode()) {
+      return readLocalEmails().includes(normalized);
+    }
+
+    if (!supabase) return false;
+
     try {
       const { data } = await supabase
         .from('email_access')
         .select('email')
-        .eq('email', email)
+        .eq('email', normalized)
         .single();
 
       return !!data;
